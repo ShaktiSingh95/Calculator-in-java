@@ -44,7 +44,7 @@ public class StringEvaluation extends Stack {
                 i--;
                 this.values.push(Double.parseDouble(no.toString()));
 
-            } else if (charExp[i] == '+' || charExp[i] == '*' || charExp[i] == '/' || charExp[i] == '-') {
+            } else if (this.checkOpr(charExp[i])) {
 
                 if (this.operators.empty()) {
                     this.operators.push(charExp[i]);
@@ -57,15 +57,20 @@ public class StringEvaluation extends Stack {
                 } else {
 
                     while (!checkPreced(charExp[i], this.operators.peek())) {
+
                         try {
                             this.calcNpush(this.operators.pop(), this.values.pop(), this.values.pop());
-                            System.out.println(this.values.toString());
+
                         } catch (Exception e) {
 
                             throw new Exception();
                         }
+                        if (this.operators.empty()) {
+                            break;
+                        }
                     }
                     this.operators.push(charExp[i]);
+
                 }
 
             }
@@ -75,6 +80,7 @@ public class StringEvaluation extends Stack {
         while (!this.operators.empty()) {
 
             try {
+
                 this.calcNpush(this.operators.pop(), this.values.pop(), this.values.pop());
 
             } catch (Exception e) {
@@ -100,13 +106,15 @@ public class StringEvaluation extends Stack {
                 answer = a * b;
                 break;
             case '/':
-                if (b == 0) {
-
-                    throw new ArithmeticException();
-
-                } else {
+                try {
                     answer = a / b;
+                } catch (ArithmeticException e) {
+                    throw new ArithmeticException();
                 }
+                break;
+            case '^':
+                answer = Math.pow(a, b);
+                break;
 
         }
         this.values.push(answer);
@@ -114,12 +122,30 @@ public class StringEvaluation extends Stack {
 
     private static boolean checkPreced(char c, char peek) {
 
-
-        if ((c == '+' || c == '-') && (peek == '/' || peek == '*'))
+        if (c == '^')
+            return true;
+        else if (peek == '^' && (c == '+' || c == '-' || c == '*' || c == '/'))
             return false;
-        else
+        else if ((c == '/' || c == '*') && (peek == '+' || peek == '-'))
             return true;
 
+        else if ((peek == '+' || peek == '-') && (c == '+' || c == '-')) {
+
+            return true;
+
+        } else if ((c == '/' || c == '*') && (peek == '/' || peek == '*')) {
+            return false;
+        } else if ((c == '+' || c == '-') && (peek == '*' || peek == '/'))
+            return false;
+        else return true;
+    }
+
+    public boolean checkOpr(char c) {
+        if (c == '+' || c == '*' || c == '/' || c == '-' || c == '^') {
+            return true;
+
+        }
+        return false;
     }
 
 }

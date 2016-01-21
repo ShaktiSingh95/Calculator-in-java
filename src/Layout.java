@@ -8,7 +8,8 @@ import java.awt.event.*;
  */
 public class Layout implements ActionListener {
 
-    //Strings to hold input and output respectively.
+    StringEvaluation answ = new StringEvaluation();    //Strings to hold input and output respectively.
+
     ///////////////////////////////////////////////
     String ques = "", answer = "";
     //////////////////////////////////////////////
@@ -20,8 +21,7 @@ public class Layout implements ActionListener {
     JButton add = new JButton("+");
     JButton subs = new JButton("-");
     JButton equal = new JButton("=");
-    //JButton remainder = new JButton("%");
-    //JButton power = new JButton("^");
+    JButton power = new JButton("^");
     /////////////////////////////////////////////
 
     //Other feature buttons
@@ -60,7 +60,6 @@ public class Layout implements ActionListener {
     Border inOutBorder = BorderFactory.createTitledBorder("In/Out");
     /////////////////////////////////////////////////////////////////////////
 
-
     /*Constructor
     *  Builds the layout.
     *  Sets the action listners to buttons.
@@ -75,6 +74,7 @@ public class Layout implements ActionListener {
         this.subs.setActionCommand("-");
         this.divide.setActionCommand("/");
         this.multi.setActionCommand("*");
+        this.power.setActionCommand("^");
         this.zero.setActionCommand("0");
         this.one.setActionCommand("1");
         this.two.setActionCommand("2");
@@ -90,9 +90,8 @@ public class Layout implements ActionListener {
         this.operations.add(this.equal);
         this.operations.add(this.multi);
         this.operations.add(this.divide);
-        //operations.add(remainder);
         this.operations.add(this.subs);
-        //operations.add(power);
+        this.operations.add(power);
         this.operations.add(this.add);
         this.operations.add(this.lBrac);
         this.operations.add(this.rBrac);
@@ -112,8 +111,7 @@ public class Layout implements ActionListener {
         this.multi.addActionListener(this);
         this.divide.addActionListener(this);
         this.subs.addActionListener(this);
-        // this.remainder.addActionListener(this);
-        //this.power.addActionListener(this);
+        this.power.addActionListener(this);
         this.zero.addActionListener(this);
         this.one.addActionListener(this);
         this.two.addActionListener(this);
@@ -140,32 +138,29 @@ public class Layout implements ActionListener {
         this.keyboard.add(this.operations);
         this.keyboard.add(this.numbers);
         this.keyboard.add(this.refresh);
-        this.mainFrame.add(this.keyboard);
+        this.mainFrame.setContentPane(this.keyboard);
         this.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.mainFrame.setSize(500, 270);
-        this.mainFrame.setResizable(false);
+        this.keyboard.setSize(500, 270);
+        this.mainFrame.pack();
         this.mainFrame.setVisible(true);
-        this.mainFrame.setBackground(Color.blue);
 
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
         JButton buttonPressed = (JButton) (e.getSource());
-        if (buttonPressed.getActionCommand() == this.lBrac.getActionCommand() || buttonPressed.getActionCommand() == this.rBrac.getActionCommand() || buttonPressed.getActionCommand() == this.multi.getActionCommand() || buttonPressed.getActionCommand() == this.subs.getActionCommand() || buttonPressed.getActionCommand() == this.add.getActionCommand() || buttonPressed.getActionCommand() == this.divide.getActionCommand() || buttonPressed.getActionCommand() == this.zero.getActionCommand() || buttonPressed.getActionCommand() == this.one.getActionCommand() || buttonPressed.getActionCommand() == this.two.getActionCommand() || buttonPressed.getActionCommand() == this.three.getActionCommand() || buttonPressed.getActionCommand() == this.four.getActionCommand() || buttonPressed.getActionCommand() == this.five.getActionCommand() || buttonPressed.getActionCommand() == this.six.getActionCommand() || buttonPressed.getActionCommand() == this.seven.getActionCommand() || buttonPressed.getActionCommand() == this.eight.getActionCommand() || buttonPressed.getActionCommand() == this.nine.getActionCommand()) {
+        if (buttonPressed.getActionCommand() != this.refresh.getActionCommand() && buttonPressed.getActionCommand() != this.equal.getActionCommand()) {
 
             if ((answer != "")) {
-                if ((buttonPressed.getActionCommand() == this.multi.getActionCommand() || buttonPressed.getActionCommand() == this.subs.getActionCommand() || buttonPressed.getActionCommand() == this.add.getActionCommand() || buttonPressed.getActionCommand() == this.divide.getActionCommand()))
+
+                if (answ.checkOpr(buttonPressed.getActionCommand().charAt(0)))
                     this.ques = answer;
                 else
                     this.ques = "";
                 this.answer = "";
+
             }
-
             this.ques = this.ques + (buttonPressed.getActionCommand());
-
-
             this.input.setText(this.ques);
 
         } else if (buttonPressed.getActionCommand() == this.equal.getActionCommand()) {
@@ -192,7 +187,6 @@ public class Layout implements ActionListener {
 
     private void calculateUsingStack() {
 
-        StringEvaluation answ = new StringEvaluation();
         try {
             this.answer = answ.evaluate(ques);
         } catch (Exception e) {

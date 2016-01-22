@@ -3,6 +3,10 @@ import java.util.Stack;
 /**
  * Created by $SPS on 16-01-2016.
  */
+
+
+//Two stacks 1. operator,2.values.
+// then calculates according to the precedence of the operators.
 public class StringEvaluation extends Stack {
 
     Stack<Character> operators = new Stack<Character>();
@@ -120,7 +124,7 @@ public class StringEvaluation extends Stack {
         this.values.push(answer);
     }
 
-    private static boolean checkPreced(char c, char peek) {
+    private static boolean checkPreced(char c, char peek) {//checks the precedence of the operators.
 
         if (c == '^')
             return true;

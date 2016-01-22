@@ -66,6 +66,7 @@ public class Layout implements ActionListener {
      */
     public Layout() {
 
+        //Setting action command to each button.
         this.equal.setActionCommand("=");
         this.lBrac.setActionCommand("(");
         this.rBrac.setActionCommand(")");
@@ -85,6 +86,7 @@ public class Layout implements ActionListener {
         this.seven.setActionCommand("7");
         this.eight.setActionCommand("8");
         this.nine.setActionCommand("9");
+        //////////////////////////////////////
         this.output.setColumns(15);
         this.operations.setBorder(this.operBorder);
         this.operations.add(this.equal);
@@ -95,6 +97,9 @@ public class Layout implements ActionListener {
         this.operations.add(this.add);
         this.operations.add(this.lBrac);
         this.operations.add(this.rBrac);
+
+        ///////////////////////////////////
+        //Adding numbers to number pannel.
         this.numbers.add(this.zero);
         this.numbers.add(this.one);
         this.numbers.add(this.two);
@@ -106,6 +111,10 @@ public class Layout implements ActionListener {
         this.numbers.add(this.eight);
         this.numbers.add(this.nine);
         this.numbers.setBorder(this.numBorder);
+        //////////////////////////////////////////
+
+        ///////////////////////////////////////////
+        //setting action listner of each button
         this.add.addActionListener(this);
         this.equal.addActionListener(this);
         this.multi.addActionListener(this);
@@ -125,22 +134,30 @@ public class Layout implements ActionListener {
         this.refresh.addActionListener(this);
         this.rBrac.addActionListener(this);
         this.lBrac.addActionListener(this);
-        this.inOutPanel.add(this.output);
+        ////////////////////////////////////////
+
+        //////////////////////////////////////////
         this.inOutPanel.add(this.input);
-        this.inOutPanel.requestFocus();
+        this.input.setFocusable(true);
+        this.inOutPanel.add(this.output);
         this.inOutPanel.setBorder(this.inOutBorder);
         this.inOutPanel.setAlignmentX(this.mainFrame.getWidth() / 2);
         this.inOutPanel.setAlignmentY(0);
-        this.keyboard.setSize(400, 400);
+        this.keyboard.setPreferredSize(new Dimension(550,270));
         this.keyboard.setAlignmentX(10);
         this.keyboard.setAlignmentY(20);
+
+        ///////////////////////////////////////////////
+        //Adding all panels to the main panel i.e.:keyboard.
         this.keyboard.add(this.inOutPanel);
         this.keyboard.add(this.operations);
         this.keyboard.add(this.numbers);
         this.keyboard.add(this.refresh);
+        ////////////////////////////////////////////////////
+
+
         this.mainFrame.setContentPane(this.keyboard);
         this.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.keyboard.setSize(500, 270);
         this.mainFrame.pack();
         this.mainFrame.setVisible(true);
 
@@ -149,13 +166,13 @@ public class Layout implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         JButton buttonPressed = (JButton) (e.getSource());
-        if (buttonPressed.getActionCommand() != this.refresh.getActionCommand() && buttonPressed.getActionCommand() != this.equal.getActionCommand()) {
+        if (buttonPressed.getActionCommand() != this.refresh.getActionCommand() && buttonPressed.getActionCommand() != this.equal.getActionCommand()) {//checks if it is an operator.
 
             if ((answer != "")) {
 
-                if (answ.checkOpr(buttonPressed.getActionCommand().charAt(0)))
+                if (answ.checkOpr(buttonPressed.getActionCommand().charAt(0)))//if their exists an output of previous input and user enters another operator,that means he/she wants to perform operations on it.
                     this.ques = answer;
-                else
+                else //if it is a digit,it indicates to start a new calculation.
                     this.ques = "";
                 this.answer = "";
 
@@ -195,4 +212,5 @@ public class Layout implements ActionListener {
         this.output.setText(this.answer);
 
     }
+
 }

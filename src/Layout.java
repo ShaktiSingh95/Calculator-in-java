@@ -6,6 +6,7 @@ import java.awt.event.*;
 /**
  * Created by $SPS on 15-01-2016.
  */
+
 public class Layout implements ActionListener {
 
     StringEvaluation answ = new StringEvaluation();    //Strings to hold input and output respectively.
@@ -63,7 +64,7 @@ public class Layout implements ActionListener {
     /*Constructor
     *  Builds the layout.
     *  Sets the action listners to buttons.
-     */
+    */
     public Layout() {
 
         //Setting action command to each button.
@@ -86,7 +87,8 @@ public class Layout implements ActionListener {
         this.seven.setActionCommand("7");
         this.eight.setActionCommand("8");
         this.nine.setActionCommand("9");
-        //////////////////////////////////////
+
+        ////////////////////////////////////////////
         this.output.setColumns(15);
         this.operations.setBorder(this.operBorder);
         this.operations.add(this.equal);
@@ -98,7 +100,8 @@ public class Layout implements ActionListener {
         this.operations.add(this.lBrac);
         this.operations.add(this.rBrac);
 
-        ///////////////////////////////////
+
+        ////////////////////////////////////////////
         //Adding numbers to number pannel.
         this.numbers.add(this.zero);
         this.numbers.add(this.one);
@@ -110,7 +113,6 @@ public class Layout implements ActionListener {
         this.numbers.add(this.seven);
         this.numbers.add(this.eight);
         this.numbers.add(this.nine);
-        this.numbers.setBorder(this.numBorder);
         //////////////////////////////////////////
 
         ///////////////////////////////////////////
@@ -136,30 +138,40 @@ public class Layout implements ActionListener {
         this.lBrac.addActionListener(this);
         ////////////////////////////////////////
 
-        //////////////////////////////////////////
-        this.inOutPanel.add(this.input);
-        this.input.setFocusable(true);
-        this.inOutPanel.add(this.output);
+        //////////////////////////////////////////////////////////
+        //border setting,and  other gui related stuff
         this.inOutPanel.setBorder(this.inOutBorder);
-        this.inOutPanel.setAlignmentX(this.mainFrame.getWidth() / 2);
-        this.inOutPanel.setAlignmentY(0);
-        this.keyboard.setPreferredSize(new Dimension(550,270));
-        this.keyboard.setAlignmentX(10);
-        this.keyboard.setAlignmentY(20);
+        this.input.setFocusable(true);
+        this.numbers.setBorder(this.numBorder);
 
-        ///////////////////////////////////////////////
-        //Adding all panels to the main panel i.e.:keyboard.
+        this.operations.setPreferredSize(new Dimension(140,200));
+        this.operations.setLocation(400,400);
+
+        this.numbers.setPreferredSize(new Dimension(130,200));
+        this.numbers.setLocation(80,100);
+
+
+        this.inOutPanel.add(this.input);
+        this.inOutPanel.add(this.output);
+        this.inOutPanel.setLocation(100,50);
+        this.inOutPanel.setPreferredSize(new Dimension(200,100));
+
         this.keyboard.add(this.inOutPanel);
         this.keyboard.add(this.operations);
         this.keyboard.add(this.numbers);
         this.keyboard.add(this.refresh);
-        ////////////////////////////////////////////////////
-
+        this.keyboard.setPreferredSize(new Dimension(500,500));
+        this.keyboard.setLocation(0,0);
 
         this.mainFrame.setContentPane(this.keyboard);
         this.mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.mainFrame.setLocation(0,0);
+        this.mainFrame.setPreferredSize(new Dimension(600,300));
         this.mainFrame.pack();
         this.mainFrame.setVisible(true);
+
+        //////////////////////////////////////////
+
 
     }
 
